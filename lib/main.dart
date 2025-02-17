@@ -34,7 +34,7 @@ class _CounterWidgetState extends State<CounterWidget> {
     } else if (_counter > 50) {
       return Colors.green;
     } else {
-      return Colors.black;
+      return Colors.blue;
     }
   }
 
@@ -123,8 +123,8 @@ class _CounterWidgetState extends State<CounterWidget> {
                 _counter = value.toInt();
               });
             },
-            activeColor: Colors.blue,
-            inactiveColor: Colors.red,
+            activeColor: Colors.green,
+            inactiveColor: Colors.lightGreen,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
