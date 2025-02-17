@@ -27,6 +27,7 @@ class _CounterWidgetState extends State<CounterWidget> {
   final int _maxValue = 100;
   final TextEditingController _controller = TextEditingController();
   String _message = "";
+  List<int> _counterHistory = [];
 
   Color _getCounterColor() {
     if (_counter == 0) {
@@ -42,6 +43,7 @@ class _CounterWidgetState extends State<CounterWidget> {
     setState(() {
       if (_counter > 0) {
         _counter--;
+        _counterHistory.add(_counter);
         _message = "";
       }
     });
@@ -50,6 +52,7 @@ class _CounterWidgetState extends State<CounterWidget> {
   void _reset() {
     setState(() {
       _counter = 0;
+      _counterHistory.add(_counter);
       _message = "";
     });
   }
@@ -67,6 +70,7 @@ class _CounterWidgetState extends State<CounterWidget> {
     setState(() {
       if (_counter + _incrementValue <= _maxValue) {
         _counter += _incrementValue;
+        _counterHistory.add(_counter);
         _message = "";
       } else {
         _counter = _maxValue;
@@ -144,6 +148,18 @@ class _CounterWidgetState extends State<CounterWidget> {
                 child: Text("Reset"),
               ),
             ],
+          ),
+          SizedBox(height: 20),
+          Text("Counter History:", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _counterHistory.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text("${_counterHistory[index]}", style: TextStyle(fontSize: 16)),
+                );
+              },
+            ),
           ),
         ],
       ),
