@@ -25,6 +25,7 @@ class _CounterWidgetState extends State<CounterWidget> {
   int _counter = 0;
   int _incrementValue = 1;
   final int _maxValue = 100;
+  final int _targetValue = 100;
   final TextEditingController _controller = TextEditingController();
   String _message = "";
   List<int> _counterHistory = [];
@@ -45,6 +46,7 @@ class _CounterWidgetState extends State<CounterWidget> {
         _counter--;
         _counterHistory.add(_counter);
         _message = "";
+        _checkForTarget();
       }
     });
   }
@@ -72,6 +74,7 @@ class _CounterWidgetState extends State<CounterWidget> {
         _counter += _incrementValue;
         _counterHistory.add(_counter);
         _message = "";
+        _checkForTarget();
       } else {
         _counter = _maxValue;
         _message = "Maximum limit reached!";
@@ -90,6 +93,32 @@ class _CounterWidgetState extends State<CounterWidget> {
         }
       }
     });
+  }
+
+  void _checkForTarget() {
+    if (_counter == _targetValue) {
+      _showCongratulatoryDialog();
+    }
+  }
+
+  void _showCongratulatoryDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Congratulations!'),
+          content: Text('You have reached $_targetValue!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
