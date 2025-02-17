@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
       title: 'Stateful Widget',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // A widget that will be started on the application startup
       home: CounterWidget(),
     );
   }
@@ -24,8 +22,22 @@ class CounterWidget extends StatefulWidget {
 }
 
 class _CounterWidgetState extends State<CounterWidget> {
-//initial couter value
   int _counter = 0;
+
+  void _decrement() {
+    setState(() {
+      if (_counter > 0) {
+        _counter--;
+      }
+    });
+  }
+
+  void _reset() {
+    setState(() {
+      _counter = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +51,6 @@ class _CounterWidgetState extends State<CounterWidget> {
             child: Container(
               color: Colors.blue,
               child: Text(
-                //displays the current number
                 '$_counter',
                 style: TextStyle(fontSize: 50.0),
               ),
@@ -56,6 +67,20 @@ class _CounterWidgetState extends State<CounterWidget> {
             },
             activeColor: Colors.blue,
             inactiveColor: Colors.red,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: _decrement,
+                child: Text("Decrement"),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: _reset,
+                child: Text("Reset"),
+              ),
+            ],
           ),
         ],
       ),
