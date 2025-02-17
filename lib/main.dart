@@ -79,6 +79,19 @@ class _CounterWidgetState extends State<CounterWidget> {
     });
   }
 
+  void _undo() {
+    setState(() {
+      if (_counterHistory.isNotEmpty) {
+        _counterHistory.removeLast();
+        if (_counterHistory.isNotEmpty) {
+          _counter = _counterHistory.last;
+        } else {
+          _counter = 0;
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,6 +159,11 @@ class _CounterWidgetState extends State<CounterWidget> {
               ElevatedButton(
                 onPressed: _reset,
                 child: Text("Reset"),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: _undo,
+                child: Text("Undo"),
               ),
             ],
           ),
