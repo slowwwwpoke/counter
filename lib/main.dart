@@ -24,12 +24,15 @@ class CounterWidget extends StatefulWidget {
 class _CounterWidgetState extends State<CounterWidget> {
   int _counter = 0;
   int _incrementValue = 1;
+  final int _maxValue = 100;
   final TextEditingController _controller = TextEditingController();
+  String _message = "";
 
   void _decrement() {
     setState(() {
       if (_counter > 0) {
         _counter--;
+        _message = "";
       }
     });
   }
@@ -37,6 +40,7 @@ class _CounterWidgetState extends State<CounterWidget> {
   void _reset() {
     setState(() {
       _counter = 0;
+      _message = "";
     });
   }
 
@@ -51,7 +55,13 @@ class _CounterWidgetState extends State<CounterWidget> {
 
   void _increment() {
     setState(() {
-      _counter += _incrementValue;
+      if (_counter + _incrementValue <= _maxValue) {
+        _counter += _incrementValue;
+        _message = "";
+      } else {
+        _counter = _maxValue;
+        _message = "Maximum limit reached!";
+      }
     });
   }
 
@@ -73,6 +83,14 @@ class _CounterWidgetState extends State<CounterWidget> {
               ),
             ),
           ),
+          if (_message.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                _message,
+                style: TextStyle(color: Colors.red, fontSize: 16.0),
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -87,7 +105,7 @@ class _CounterWidgetState extends State<CounterWidget> {
           ),
           Slider(
             min: 0,
-            max: 100,
+            max: _maxValue.toDouble(),
             value: _counter.toDouble(),
             onChanged: (double value) {
               setState(() {
