@@ -28,6 +28,16 @@ class _CounterWidgetState extends State<CounterWidget> {
   final TextEditingController _controller = TextEditingController();
   String _message = "";
 
+  Color _getCounterColor() {
+    if (_counter == 0) {
+      return Colors.red;
+    } else if (_counter > 50) {
+      return Colors.green;
+    } else {
+      return Colors.black;
+    }
+  }
+
   void _decrement() {
     setState(() {
       if (_counter > 0) {
@@ -76,10 +86,11 @@ class _CounterWidgetState extends State<CounterWidget> {
         children: [
           Center(
             child: Container(
-              color: Colors.blue,
+              color: Colors.white,
+              padding: EdgeInsets.all(10.0),
               child: Text(
                 '$_counter',
-                style: TextStyle(fontSize: 50.0),
+                style: TextStyle(fontSize: 50.0, color: _getCounterColor()),
               ),
             ),
           ),
