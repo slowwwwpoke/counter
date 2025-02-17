@@ -23,6 +23,8 @@ class CounterWidget extends StatefulWidget {
 
 class _CounterWidgetState extends State<CounterWidget> {
   int _counter = 0;
+  int _incrementValue = 1;
+  final TextEditingController _controller = TextEditingController();
 
   void _decrement() {
     setState(() {
@@ -35,6 +37,21 @@ class _CounterWidgetState extends State<CounterWidget> {
   void _reset() {
     setState(() {
       _counter = 0;
+    });
+  }
+
+  void _setIncrementValue(String value) {
+    final int? newValue = int.tryParse(value);
+    if (newValue != null && newValue > 0) {
+      setState(() {
+        _incrementValue = newValue;
+      });
+    }
+  }
+
+  void _increment() {
+    setState(() {
+      _counter += _incrementValue;
     });
   }
 
@@ -56,6 +73,18 @@ class _CounterWidgetState extends State<CounterWidget> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Set Increment Value",
+                border: OutlineInputBorder(),
+              ),
+              onChanged: _setIncrementValue,
+            ),
+          ),
           Slider(
             min: 0,
             max: 100,
@@ -71,6 +100,11 @@ class _CounterWidgetState extends State<CounterWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              ElevatedButton(
+                onPressed: _increment,
+                child: Text("Increment"),
+              ),
+              SizedBox(width: 10),
               ElevatedButton(
                 onPressed: _decrement,
                 child: Text("Decrement"),
